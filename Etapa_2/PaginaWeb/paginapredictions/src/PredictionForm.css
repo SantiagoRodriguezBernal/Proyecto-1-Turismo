@@ -1,0 +1,48 @@
+/* PredictionForm.css */
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  input {
+    font-size: 18px; /* Tamaño de fuente para un párrafo */
+    margin: 30px 0;
+  }
+
+  textarea {
+    width: 500px; /* Ancho del textarea al 80% del contenedor */
+    height: 500px;
+    font-size: 18px; /* Tamaño de fuente para un párrafo */
+    padding: 10px;
+    margin: 10px 0;
+    resize: vertical; /* Permite ajuste de tamaño verticalmente */
+    overflow-y: auto; /* Permite desplazamiento vertical si se llena a lo alto */
+    overflow-x: hidden; /* Oculta la barra de desplazamiento horizontal */
+    border: 1px solid #ccc; /* Borde para el textarea */
+  }
+  
+  button {
+    font-size: 18px; /* Tamaño de fuente para un párrafo */
+    padding: 10px 20px;
+    background-color: #007BFF; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
+  }
+  
+  h3 {
+    font-size: 24px;
+    margin: 20px 0;
+  }
+  
+  p {
+    font-size: 20px;
+  }
+  
