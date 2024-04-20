@@ -94,3 +94,55 @@ class CustomPreprocessor(BaseEstimator, TransformerMixin):
         data['words'] = palabras
         data['words'] = data['words'].apply(self.procesamientoPalabras)
         return data
+    
+class CustomRegression(BaseEstimator, TransformerMixin):
+    def init(self):
+        self.model = None
+        self.params = None
+        self.accuracy = None
+        self.vec = None
+        
+    def fit(self, X, y=None):
+                
+        X['words'] = X['words'].apply(lambda x: ' '.join(map(str, x)))
+        
+        #Separación de los datos en conjunto de test y train
+        X = X.drop('Review', axis = 1)
+        df_train, df_test = sklearn.model_selection.train_test_split(X, test_size=0.2, random_state=0)
+
+        X_train = df_train['words']
+        y_train = df_train['Class']
+
+        X_test = df_test['words']
+        y_test = df_test['Class']
+        
+        #Vectorizar los datos con Tfid
+        vectorizer = TfidfVectorizer()
+        train_vectors = vectorizer.fit_transform(X_train)
+        test_vectors = vectorizer.transform(X_test)
+        
+        self.vec = vectorizer
+        
+        parameters = {
+            'penalty' : ['l1','l2', 'elasticnet', None], 
+            'C'       : np.logspace(-10,10,3),
+            'solver'  : ['newton-cg', 'lbfgs', 'liblinear'],
+        }
+        
+        metrica = RepeatedKFold(n_splits=20, n_repeats= 10, random_state=0)
+
+        logreg = LogisticRegression()
+        modelo = GridSearchCV(logreg, param_grid = parameters, scoring='accuracy', cv=metrica, n_jobs=-1)  
+        
+        modelo.fit(train_vectors,y_train)
+        self.params = modelo.best_params_
+        self.accuracy = modelo.best_score_
+        modelo_optimo = modelo.best_estimator_
+                
+        self.model = modelo_optimo
+        
+        return self
+
+    def transform(self, X):        
+
+        return X
