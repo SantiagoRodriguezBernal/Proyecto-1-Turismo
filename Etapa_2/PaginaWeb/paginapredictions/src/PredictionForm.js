@@ -28,8 +28,9 @@ function PredictionForm() {
     const handleFileUpload = async (file) => {
         try {
             const formData = new FormData();
-            formData.append("excel_file", file);
-            const response = await fetch("http://127.0.0.1:5000/uploadexcel", {
+            formData.append("txt_file", file); // Cambiar a 'txt_file'
+            const response = await fetch("http://127.0.0.1:5000/uploadtxt", {
+                // Cambiar la URL
                 method: "POST",
                 body: formData,
                 redirect: "follow",
@@ -41,7 +42,7 @@ function PredictionForm() {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "predicted_data.xlsx";
+                a.download = "processed_data.txt"; // Cambiar a '.txt'
                 a.click();
             }
         } catch (error) {
